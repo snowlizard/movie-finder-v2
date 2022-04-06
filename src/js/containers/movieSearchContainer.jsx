@@ -2,12 +2,14 @@ import React from "react";
 
 const MovieSearchContainer = () => {
     return (
-        <div>
+        <div className="movie-list">
             {
                 data.map( movie => (
-                    <div className="movie-search-details">
+                    <div className="movie-search-details m-1">
                         <div className="movie-poster-container">
-                            <img className="movie-poster" src={movie.Poster} />
+                            <img className="movie-poster"
+                            src={movie.Poster !== "N/A" ? movie.Poster
+                            : 'https://www.hdstream.download/assets/general/images/no_poster.jpg'} />
                         </div>
 
                         <div className="search-details-container">
