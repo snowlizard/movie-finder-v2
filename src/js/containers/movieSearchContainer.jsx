@@ -1,105 +1,70 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const MovieSearchContainer = () => {
-    return (
-        <div className="movie-list">
-            {
-                data.map( movie => (
-                    <div className="movie-search-details m-1">
-                        <div className="movie-poster-container">
-                            <img className="movie-poster"
-                            src={movie.Poster !== "N/A" ? movie.Poster
-                            : 'https://www.hdstream.download/assets/general/images/no_poster.jpg'} />
-                        </div>
+  const [movies, setData] = useState([]);
 
-                        <div className="search-details-container">
-                            <div>
-                                {movie.Title}
-                            </div>
-                            <div>
-                                {movie.Year}
-                            </div>
-                        </div>
+  const handleSearch = () => {
+    const movieTitle = document.getElementById('movieTitle').value;
+    
+    fetch(`movieInfo/${movieTitle}`)
+    .then( response => response.json())
+    .then( data => {
+      setData(data.Search);
+    });
+  }
 
-                    </div>
-                ))
-            }
-
+  return (
+    <div className="movie-list">
+      <div className="banner">
+        <div>
+          <h2 className="fs-1">Movie Night</h2>
         </div>
-    );
+      </div>
+
+      <div className="input-group search-bar">
+        <input type="text"
+        id="movieTitle"
+        className="form-control"/>
+        <button className="btn btn-outline-primary"
+        onClick={ handleSearch }>
+          Search
+        </button>
+      </div>
+        {   
+            movies === undefined ?
+            'No Movies found' :
+            movies.map( movie => (
+                <div className="movie-search-details m-1">
+                    <div className="movie-poster-container">
+                        <img className="movie-poster"
+                        src={movie.Poster !== "N/A" ? movie.Poster
+                        : 'https://www.hdstream.download/assets/general/images/no_poster.jpg'} />
+                    </div>
+
+                    <div className="search-details-container">
+                        <div>
+                            {movie.Title}
+                        </div>
+                        <div>
+                            {movie.Year}
+                        </div>
+                        <div>
+                            <Link to={`movie/${movie.imdbID}`}>
+                              <button className="btn btn-primary">
+                                Movie Details
+                              </button>
+                            </Link>
+                        </div>
+                    </div>
+
+                </div>
+            ))
+        }
+
+    </div>
+  );
 }
 
 export default MovieSearchContainer;
-
-const data = [
-    {
-      "Title": "Italian Spiderman",
-      "Year": "2007",
-      "imdbID": "tt2705436",
-      "Type": "movie",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BYjFhN2RjZTctMzA2Ni00NzE2LWJmYjMtNDAyYTllOTkyMmY3XkEyXkFqcGdeQXVyNTA0OTU0OTQ@._V1_SX300.jpg"
-    },
-    {
-      "Title": "Superman, Spiderman or Batman",
-      "Year": "2011",
-      "imdbID": "tt2084949",
-      "Type": "movie",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BMjQ4MzcxNDU3N15BMl5BanBnXkFtZTgwOTE1MzMxNzE@._V1_SX300.jpg"
-    },
-    {
-      "Title": "Spiderman",
-      "Year": "1990",
-      "imdbID": "tt0100669",
-      "Type": "movie",
-      "Poster": "N/A"
-    },
-    {
-      "Title": "Spiderman",
-      "Year": "2010",
-      "imdbID": "tt1785572",
-      "Type": "movie",
-      "Poster": "N/A"
-    },
-    {
-      "Title": "Spiderman and Grandma",
-      "Year": "2009",
-      "imdbID": "tt1433184",
-      "Type": "movie",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BMjE3Mzg0MjAxMl5BMl5BanBnXkFtZTcwNjIyODg5Mg@@._V1_SX300.jpg"
-    },
-    {
-      "Title": "Fighting, Flying and Driving: The Stunts of Spiderman 3",
-      "Year": "2007",
-      "imdbID": "tt1132238",
-      "Type": "movie",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BNTI3NDE1ZmEtMTRiMS00YTY4LTk0OGItNjY4YmI0MDM4OGM4XkEyXkFqcGdeQXVyODE2NDgwMzM@._V1_SX300.jpg"
-    },
-    {
-      "Title": "The Amazing Spiderman T4 Premiere Special",
-      "Year": "2012",
-      "imdbID": "tt2233044",
-      "Type": "movie",
-      "Poster": "N/A"
-    },
-    {
-      "Title": "Spiderman in Cannes",
-      "Year": "2016",
-      "imdbID": "tt5978586",
-      "Type": "movie",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BZDlmMGQwYmItNTNmOS00OTNkLTkxNTYtNDM3ZWVlMWUyZDIzXkEyXkFqcGdeQXVyMTA5Mzk5Mw@@._V1_SX300.jpg"
-    },
-    {
-      "Title": "Amazing Spiderman Syndrome",
-      "Year": "2012",
-      "imdbID": "tt2586634",
-      "Type": "movie",
-      "Poster": "N/A"
-    },
-    {
-      "Title": "Hollywood's Master Storytellers: Spiderman Live",
-      "Year": "2006",
-      "imdbID": "tt2158533",
-      "Type": "movie",
-      "Poster": "N/A"
-    }
-  ]

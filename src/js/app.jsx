@@ -9,7 +9,7 @@ export default class App extends Component {
       <HashRouter>
         <Switch>
           <Route exact path="/" component={MovieSearchContainer} />
-          <Route path='movie/:id' component={MovieDetailContainer} />
+          <Route path='/movie/:id' render={ (props) => <MovieDetailContainer {...props} />} />
         </Switch>
       </HashRouter>
     );

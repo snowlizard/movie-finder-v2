@@ -1,10 +1,29 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-// given movie object
-const MovieDetailContainer = () => {
+const MovieDetailContainer = (props) => {
+    const [ movie, setMovie] = useState({});
+
+    const id = props.match.params.id;
+    
+    useEffect( () => {
+        fetch(`movie/${id}`)
+            .then( res => res.json())
+            .then( data => setMovie(data));
+    }, [])
+
     return (
         <div className="movie">
-            <div className="movie-poster-main">
+            <div className="home-btn">
+                <Link to="/">
+                    <button
+                    className=" btn btn-primary">
+                        Home
+                    </button>
+                </Link>
+            </div>
+            <div className="movie-poster-main-container">
                 <img className="movie-poster-main" src={movie.Poster} />
             </div>
 
@@ -13,22 +32,24 @@ const MovieDetailContainer = () => {
                     Movie Details
                 </div>
 
-                <div className="card-body">
+                <div className="card-body details-body">
                     <div>
                         <h4 className="card-title">{movie.Title}</h4>
                     </div>
 
-                    <div>
-                        <span>Released: {movie.Year}</span>
-                        <span>{movie.Runtime}</span>
-                        <span>{movie.Genre}</span>
+                    <div className="badges">
+                        <span className="badge">Released: {movie.Year}</span>
+                        <span className="badge">{movie.Runtime}</span>
+                        <span className="badge">{movie.Genre}</span>
                     </div>
 
                     <span>{movie.Plot}</span>
-                    <span>Awards: {movie.Awards}</span>
-                    <span>Actors: {movie.Actors}</span>
-                    <span>MetaScore: {movie.Metascore}</span>
-                    <span>IMDB: {movie.imdbRating}</span>
+                    <div className="misc-info">
+                        <span>Awards: {movie.Awards}</span>
+                        <span>Actors: {movie.Actors}</span>
+                        <span>MetaScore: {movie.Metascore}</span>
+                        <span>IMDB: {movie.imdbRating}</span>
+                    </div>
                 </div>
             </div>
         </div>
